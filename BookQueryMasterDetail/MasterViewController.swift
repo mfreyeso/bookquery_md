@@ -41,8 +41,9 @@ class MasterViewController: UITableViewController {
             let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableLeaves)
             let result = json as! NSDictionary
             let keyBook = "ISBN:" + codeISBN
-            let valuesBook = result[keyBook] as! NSDictionary
-            book = buildBook(valuesBook, code: codeISBN)
+            if let valuesBook = result[keyBook] {
+                book = buildBook(valuesBook as! NSDictionary, code: codeISBN)
+            }
         }catch _ {
             print("Error")
         }
@@ -91,16 +92,14 @@ class MasterViewController: UITableViewController {
             alert -> Void in
             let firstTextField = alertController.textFields![0] as UITextField
             
-            print(firstTextField.text!)
             let code = firstTextField.text!
             
             if code != ""{
                 if Reachability.isConnectedToNetwork(){
                     let bookObtained :Book? = self.requestData(code)
                     if bookObtained != nil {
-                        if bookObtained!.coverUrl != nil {
-                            bookObtained!.getDataImage()
-                        }
+                        
+                        bookObtained!.getDataImage()
                         self.books.insert(bookObtained!, atIndex: 0)
                         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
                         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)

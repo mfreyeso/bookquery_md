@@ -11,17 +11,26 @@ import UIKit
 class DetailViewController: UIViewController {
 
     var book :Book?
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
     
+    @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var coverBook: UIImageView!
     
     override func viewWillAppear(animated: Bool) {
         detailDescriptionLabel.text = book!.title!
+        authorLabel.text = book!.authors!
+        
+        if book!.coverImage != nil {
+            coverBook.image = book!.coverImage
+        }
+        
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.title = "Information"
     }
 
     override func didReceiveMemoryWarning() {

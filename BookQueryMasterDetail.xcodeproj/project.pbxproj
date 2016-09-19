@@ -292,6 +292,7 @@
 				AC92796C1D7D0C2E00C40E94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

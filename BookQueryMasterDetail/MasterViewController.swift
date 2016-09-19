@@ -77,11 +77,34 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
         
         let bookObject = Book(title: title, authors: authorsValue, code: code)
-        if cover != nil{
-            bookObject.modifyCoverURL(cover!)
-        }
-        return bookObject
+        bookObject.modifyCoverURL(cover)
         
+        return bookObject
+    }
+    
+    
+    func saveBook(newBook: Book){
+        let context = self.fetchedResultsController.managedObjectContext
+        let entity = self.fetchedResultsController.fetchRequest.entity!
+        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
+        
+        // If appropriate, configure the new managed object.
+        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
+        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
+        newManagedObject.setValue(newBook.title!, forKey: "title")
+        newManagedObject.setValue(newBook.authors!, forKey: "authors")
+        newManagedObject.setValue(newBook.codeISBN, forKey: "isbn")
+        newManagedObject.setValue(newBook.coverUrl!, forKey: "coverUrl")
+        
+        // Save the context.
+        do {
+            try context.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            //print("Unresolved error \(error), \(error.userInfo)")
+            abort()
+        }
     }
     
     
@@ -99,18 +122,17 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 if Reachability.isConnectedToNetwork(){
                     let bookObtained :Book? = self.requestData(code)
                     if bookObtained != nil {
-                        
-                        bookObtained!.getDataImage()
-                        self.books.insert(bookObtained!, atIndex: 0)
-                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-                        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                        
-                        let controller = self.storyboard?.instantiateViewControllerWithIdentifier("DetailBookController") as! DetailViewController
-                        
-                        controller.book = self.books[0]
-                        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                        controller.navigationItem.leftItemsSupplementBackButton = true
-                        self.navigationController?.pushViewController(controller, animated: true)
+                        self.saveBook(bookObtained!)
+//                        self.books.insert(bookObtained!, atIndex: 0)
+//                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+//                        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//                        
+//                        let controller = self.storyboard?.instantiateViewControllerWithIdentifier("DetailBookController") as! DetailViewController
+//                        
+//                        controller.book = self.books[0]
+//                        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+//                        controller.navigationItem.leftItemsSupplementBackButton = true
+//                        self.navigationController?.pushViewController(controller, animated: true)
                     }
                     else{
                         let alertController = UIAlertController(title: "Error in Request", message: "The data were not obtained.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -154,27 +176,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         
         self.presentViewController(alertController, animated: true, completion: nil)
-        
-        
-        
-        
-        let context = self.fetchedResultsController.managedObjectContext
-        let entity = self.fetchedResultsController.fetchRequest.entity!
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
-             
-        // If appropriate, configure the new managed object.
-        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
-             
-        // Save the context.
-        do {
-            try context.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            //print("Unresolved error \(error), \(error.userInfo)")
-            abort()
-        }
     }
 
     // MARK: - Segues

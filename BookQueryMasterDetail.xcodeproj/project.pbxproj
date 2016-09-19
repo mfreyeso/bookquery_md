@@ -14,6 +14,8 @@
 		AC9279611D7D0C2E00C40E94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC92795F1D7D0C2E00C40E94 /* Main.storyboard */; };
 		AC9279631D7D0C2E00C40E94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9279621D7D0C2E00C40E94 /* Assets.xcassets */; };
 		AC9279661D7D0C2E00C40E94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC9279641D7D0C2E00C40E94 /* LaunchScreen.storyboard */; };
+		ACA475391D8FA7C0007FE4D4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA475381D8FA7C0007FE4D4 /* Reachability.swift */; };
+		ACA4753B1D8FA80C007FE4D4 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA4753A1D8FA80C007FE4D4 /* Book.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		AC9279621D7D0C2E00C40E94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC9279651D7D0C2E00C40E94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC9279671D7D0C2E00C40E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACA475381D8FA7C0007FE4D4 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		ACA4753A1D8FA80C007FE4D4 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				AC9279641D7D0C2E00C40E94 /* LaunchScreen.storyboard */,
 				AC9279671D7D0C2E00C40E94 /* Info.plist */,
 				AC9279581D7D0C2E00C40E94 /* BookQueryMasterDetail.xcdatamodeld */,
+				ACA475381D8FA7C0007FE4D4 /* Reachability.swift */,
+				ACA4753A1D8FA80C007FE4D4 /* Book.swift */,
 			);
 			path = BookQueryMasterDetail;
 			sourceTree = "<group>";
@@ -143,7 +149,9 @@
 			files = (
 				AC92795A1D7D0C2E00C40E94 /* BookQueryMasterDetail.xcdatamodeld in Sources */,
 				AC9279571D7D0C2E00C40E94 /* AppDelegate.swift in Sources */,
+				ACA4753B1D8FA80C007FE4D4 /* Book.swift in Sources */,
 				AC92795C1D7D0C2E00C40E94 /* MasterViewController.swift in Sources */,
+				ACA475391D8FA7C0007FE4D4 /* Reachability.swift in Sources */,
 				AC92795E1D7D0C2E00C40E94 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -17,9 +17,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         self.title = "BookQuery"
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(MasterViewController.insertNewObject(_:)))
         self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
             let controllers = split.viewControllers
@@ -33,8 +32,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     
-    func requestData(codeISBN: String) ->Book?{
-        var book :Book? = nil
+    func requestData(codeISBN: String) ->BookModel?{
+        var book :BookModel? = nil
         let urls = "https://openlibrary.org/api/books?jscmd=data&format=json&bibkeys=ISBN:" + codeISBN
         let url = NSURL(string: urls)
         let data = NSData(contentsOfURL: url!)
@@ -52,7 +51,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
     }
     
-    func buildBook(data: NSDictionary, code: String) ->Book{
+    func buildBook(data: NSDictionary, code: String) ->BookModel{
         var authorsValue = "The data not contain authors"
         var title :String = "The data not contain title"
         var cover :String? = nil
@@ -76,35 +75,52 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             cover = coverDict["large"] as! NSString as String
         }
         
-        let bookObject = Book(title: title, authors: authorsValue, code: code)
+        let bookObject = BookModel(title: title, authors: authorsValue, code: code)
         bookObject.modifyCoverURL(cover)
         
         return bookObject
     }
     
     
-    func saveBook(newBook: Book){
+    func saveBook(newBook: BookModel){
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
         let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
         
-        // If appropriate, configure the new managed object.
-        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
         newManagedObject.setValue(NSDate(), forKey: "timeStamp")
         newManagedObject.setValue(newBook.title!, forKey: "title")
         newManagedObject.setValue(newBook.authors!, forKey: "authors")
         newManagedObject.setValue(newBook.codeISBN, forKey: "isbn")
         newManagedObject.setValue(newBook.coverUrl!, forKey: "coverUrl")
-        
+        newManagedObject.setValue(UIImagePNGRepresentation(newBook.coverImage!), forKey: "image")
         // Save the context.
         do {
             try context.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            //print("Unresolved error \(error), \(error.userInfo)")
             abort()
         }
+    }
+    
+    func checkBook(code: String)-> (Bool, String){
+        var response = false
+        var title = ""
+        let context = self.fetchedResultsController.managedObjectContext
+        let entity = self.fetchedResultsController.fetchRequest.entity!
+        let newManagedObject = NSEntityDescription.entityForName(entity.name!, inManagedObjectContext: context)
+        
+        let request = newManagedObject?.managedObjectModel.fetchRequestFromTemplateWithName("validateUnique", substitutionVariables: ["isbn" : code])
+        
+        do{
+            let result = try context.executeFetchRequest(request!)
+            if (result.count > 0){
+                response = true
+                let bookFound = result[0] as AnyObject
+                title = bookFound.valueForKey("title")!.description
+            }
+        }catch{
+            print("Error validating code")
+        }
+        return (response, title)
     }
     
     
@@ -120,28 +136,28 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             
             if code != ""{
                 if Reachability.isConnectedToNetwork(){
-                    let bookObtained :Book? = self.requestData(code)
-                    if bookObtained != nil {
-                        self.saveBook(bookObtained!)
-//                        self.books.insert(bookObtained!, atIndex: 0)
-//                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-//                        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-//                        
-//                        let controller = self.storyboard?.instantiateViewControllerWithIdentifier("DetailBookController") as! DetailViewController
-//                        
-//                        controller.book = self.books[0]
-//                        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-//                        controller.navigationItem.leftItemsSupplementBackButton = true
-//                        self.navigationController?.pushViewController(controller, animated: true)
-                    }
-                    else{
-                        let alertController = UIAlertController(title: "Error in Request", message: "The data were not obtained.", preferredStyle: UIAlertControllerStyle.Alert)
+                    let results = self.checkBook(code)
+                    if !results.0 {
+                        let bookObtained :BookModel? = self.requestData(code)
+                        if bookObtained != nil {
+                            bookObtained!.getDataImage()
+                            self.saveBook(bookObtained!)
+                        }
+                        else{
+                            let alertController = UIAlertController(title: "Error in Request", message: "The data were not obtained.", preferredStyle: UIAlertControllerStyle.Alert)
+                            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+                                print("OK button tapped")
+                            })
+                            alertController.addAction(okAction)
+                            self.presentViewController(alertController, animated: true, completion: nil)
+                        }
+                    }else{
+                        let alertController = UIAlertController(title: "Warning", message: "The book already exists, is '\(results.1)'", preferredStyle: UIAlertControllerStyle.Alert)
                         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
                             print("OK button tapped")
                         })
                         alertController.addAction(okAction)
                         self.presentViewController(alertController, animated: true, completion: nil)
-                        
                     }
                 }else{
                     let alertController = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -210,8 +226,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-        cell.textLabel!.text = object.valueForKey("title")!.description
+        let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as AnyObject
+        cell.textLabel!.text = object.valueForKey("title")?.description
     }
 
     // MARK: - Fetched results controller

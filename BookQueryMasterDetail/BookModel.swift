@@ -1,15 +1,15 @@
 //
-//  Book.swift
+//  BookModel.swift
 //  BookQueryMasterDetail
 //
-//  Created by Mario on 18/09/16.
+//  Created by Mario on 20/09/16.
 //  Copyright © 2016 Mario. All rights reserved.
 //
 
 import UIKit
 import Foundation
 
-class Book {
+class BookModel {
     var title :String? = nil
     var authors :String? = nil
     var coverUrl :String? = nil

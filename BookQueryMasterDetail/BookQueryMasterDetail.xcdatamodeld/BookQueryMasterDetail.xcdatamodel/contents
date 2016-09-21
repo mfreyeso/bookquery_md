@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F1912" minimumToolsVersion="Automatic">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="15G1004" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="authors" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="coverUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="isbn" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timeStamp" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Event">
-        <attribute name="timeStamp" optional="YES" attributeType="Date">
+        <attribute name="timeStamp" optional="YES" attributeType="Date" usesScalarValueType="NO">
             <userInfo/>
         </attribute>
         <userInfo/>
     </entity>
+    <fetchRequest name="validateUnique" entity="Book" predicateString="isbn == $isbn"/>
     <elements>
+        <element name="Book" positionX="466" positionY="57" width="128" height="135"/>
         <element name="Event" positionX="261" positionY="189" width="128" height="60"/>
-        <element name="Book" positionX="466" positionY="57" width="128" height="118"/>
     </elements>
 </model>

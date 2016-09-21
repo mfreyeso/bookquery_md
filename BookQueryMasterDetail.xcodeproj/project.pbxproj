@@ -15,7 +15,7 @@
 		AC9279631D7D0C2E00C40E94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9279621D7D0C2E00C40E94 /* Assets.xcassets */; };
 		AC9279661D7D0C2E00C40E94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC9279641D7D0C2E00C40E94 /* LaunchScreen.storyboard */; };
 		ACA475391D8FA7C0007FE4D4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA475381D8FA7C0007FE4D4 /* Reachability.swift */; };
-		ACA4753B1D8FA80C007FE4D4 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA4753A1D8FA80C007FE4D4 /* Book.swift */; };
+		ACE09B691D9220CB00977BAD /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE09B681D9220CB00977BAD /* BookModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +29,7 @@
 		AC9279651D7D0C2E00C40E94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC9279671D7D0C2E00C40E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACA475381D8FA7C0007FE4D4 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		ACA4753A1D8FA80C007FE4D4 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		ACE09B681D9220CB00977BAD /* BookModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 				AC9279671D7D0C2E00C40E94 /* Info.plist */,
 				AC9279581D7D0C2E00C40E94 /* BookQueryMasterDetail.xcdatamodeld */,
 				ACA475381D8FA7C0007FE4D4 /* Reachability.swift */,
-				ACA4753A1D8FA80C007FE4D4 /* Book.swift */,
+				ACE09B681D9220CB00977BAD /* BookModel.swift */,
 			);
 			path = BookQueryMasterDetail;
 			sourceTree = "<group>";
@@ -103,11 +103,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Mario;
 				TargetAttributes = {
 					AC9279521D7D0C2E00C40E94 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -147,9 +148,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACE09B691D9220CB00977BAD /* BookModel.swift in Sources */,
 				AC92795A1D7D0C2E00C40E94 /* BookQueryMasterDetail.xcdatamodeld in Sources */,
 				AC9279571D7D0C2E00C40E94 /* AppDelegate.swift in Sources */,
-				ACA4753B1D8FA80C007FE4D4 /* Book.swift in Sources */,
 				AC92795C1D7D0C2E00C40E94 /* MasterViewController.swift in Sources */,
 				ACA475391D8FA7C0007FE4D4 /* Reachability.swift in Sources */,
 				AC92795E1D7D0C2E00C40E94 /* DetailViewController.swift in Sources */,
@@ -191,8 +192,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -235,8 +238,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -255,6 +260,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -263,10 +269,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = BookQueryMasterDetail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mfreyeso.BookQueryMasterDetail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -274,10 +283,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = BookQueryMasterDetail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mfreyeso.BookQueryMasterDetail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
